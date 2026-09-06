@@ -1,0 +1,78 @@
+id: dev.creeperkatze.full-steam-ahead
+runtime: org.gnome.Platform
+runtime-version: '50'
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node22
+  - org.freedesktop.Sdk.Extension.rust-stable
+command: full-steam-ahead
+
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --talk-name=org.freedesktop.Flatpak
+
+  - --filesystem=xdg-data/Steam:rw # Steam (native)
+  - --filesystem=~/.steam:rw # Steam (native, legacy layout)
+  - --filesystem=~/.var/app/com.valvesoftware.Steam:rw # Steam (Flatpak)
+  - --filesystem=~/snap/steam/common/.local/share/Steam:rw # Steam (Snap)
+
+  - --filesystem=~/.config/heroic:ro # Heroic (native)
+  - --filesystem=~/.var/app/com.heroicgameslauncher.hgl:ro # Heroic (Flatpak)
+  - --filesystem=xdg-data/lutris:ro # Lutris (native)
+  - --filesystem=~/.var/app/net.lutris.Lutris:ro # Lutris (Flatpak)
+  - --filesystem=~/.var/app/com.usebottles.bottles:ro # Bottles (Flatpak)
+  - --filesystem=~/.config/legendary:ro # Legendary
+  - --filesystem=~/.config/itch:ro # itch.io
+  - --filesystem=~/GOG Games:ro # MiniGalaxy
+
+modules:
+  - name: full-steam-ahead
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/node22/bin:/usr/lib/sdk/rust-stable/bin:/run/build/full-steam-ahead/pnpm/bin
+      env:
+        CARGO_HOME: /run/build/full-steam-ahead/cargo
+        CARGO_NET_OFFLINE: 'true'
+        XDG_CACHE_HOME: /run/build/full-steam-ahead/flatpak-node/cache
+    sources:
+      - type: git
+        url: https://github.com/creeperkatze/full-steam-ahead.git
+        tag: v1.3.3
+        commit: 0939970cbefd559c99ad9e4bd19cbc8bd76676ac
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+      - type: archive
+        url: https://registry.npmjs.org/pnpm/-/pnpm-11.1.2.tgz
+        sha256: bfe4d2b2c7a3210565bba62929f9efe493eb5f24627201a102ea4514eae8cf80
+        dest: pnpm
+      - cargo-sources.json
+      - node-sources.json
+      - type: file
+        path: dev.creeperkatze.full-steam-ahead.desktop
+      - type: file
+        path: dev.creeperkatze.full-steam-ahead.metainfo.xml
+      - type: file
+        path: dev.creeperkatze.full-steam-ahead-128.png
+      - type: file
+        path: dev.creeperkatze.full-steam-ahead-256.png
+      - type: file
+        path: dev.creeperkatze.full-steam-ahead-512.png
+      - type: file
+        path: dev.creeperkatze.full-steam-ahead.svg
+    build-commands:
+      - ln -s pnpm.mjs pnpm/bin/pnpm
+      - pnpm install --offline --frozen-lockfile
+      - pnpm tauri build --no-bundle
+      - install -Dm755 "src-tauri/target/release/Full Steam Ahead" /app/bin/full-steam-ahead
+      - install -Dm644 -t /app/share/applications/ dev.creeperkatze.full-steam-ahead.desktop
+      - install -Dm644 -t /app/share/metainfo/ dev.creeperkatze.full-steam-ahead.metainfo.xml
+      - install -Dm644 dev.creeperkatze.full-steam-ahead-128.png /app/share/icons/hicolor/128x128/apps/dev.creeperkatze.full-steam-ahead.png
+      - install -Dm644 dev.creeperkatze.full-steam-ahead-256.png /app/share/icons/hicolor/256x256/apps/dev.creeperkatze.full-steam-ahead.png
+      - install -Dm644 dev.creeperkatze.full-steam-ahead-512.png /app/share/icons/hicolor/512x512/apps/dev.creeperkatze.full-steam-ahead.png
+      - install -Dm644 dev.creeperkatze.full-steam-ahead.svg /app/share/icons/hicolor/scalable/apps/dev.creeperkatze.full-steam-ahead.svg
+      - install -Dm644 -t /app/share/licenses/dev.creeperkatze.full-steam-ahead/ LICENSE
