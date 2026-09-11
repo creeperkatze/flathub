@@ -46,6 +46,8 @@ modules:
         x-checker-data:
           type: git
           tag-pattern: ^v([\d.]+)$
+          release-url-template: https://github.com/creeperkatze/full-steam-ahead/releases/tag/v$version
+          is-main-source: true
       - type: archive
         url: https://registry.npmjs.org/pnpm/-/pnpm-11.1.2.tgz
         sha256: bfe4d2b2c7a3210565bba62929f9efe493eb5f24627201a102ea4514eae8cf80
