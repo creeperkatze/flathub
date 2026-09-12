@@ -56,12 +56,14 @@ modules:
       - node-sources.json
       - type: file
         path: dev.creeperkatze.full-steam-ahead.metainfo.xml
+      - type: file
+        path: dev.creeperkatze.full-steam-ahead.desktop
     build-commands:
       - ln -s pnpm.mjs pnpm/bin/pnpm
       - pnpm install --offline --frozen-lockfile
       - pnpm tauri build --no-bundle
       - install -Dm755 "src-tauri/target/release/Full Steam Ahead" /app/bin/full-steam-ahead
-      - install -Dm644 -t /app/share/applications/ flatpak/dev.creeperkatze.full-steam-ahead.desktop
+      - install -Dm644 -t /app/share/applications/ dev.creeperkatze.full-steam-ahead.desktop
       - install -Dm644 -t /app/share/metainfo/ dev.creeperkatze.full-steam-ahead.metainfo.xml
       - install -Dm644 src-tauri/icons/128x128.png /app/share/icons/hicolor/128x128/apps/dev.creeperkatze.full-steam-ahead.png
       - install -Dm644 src-tauri/icons/128x128@2x.png /app/share/icons/hicolor/256x256/apps/dev.creeperkatze.full-steam-ahead.png
