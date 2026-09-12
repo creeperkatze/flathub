@@ -55,26 +55,16 @@ modules:
       - cargo-sources.json
       - node-sources.json
       - type: file
-        path: dev.creeperkatze.full-steam-ahead.desktop
-      - type: file
         path: dev.creeperkatze.full-steam-ahead.metainfo.xml
-      - type: file
-        path: dev.creeperkatze.full-steam-ahead-128.png
-      - type: file
-        path: dev.creeperkatze.full-steam-ahead-256.png
-      - type: file
-        path: dev.creeperkatze.full-steam-ahead-512.png
-      - type: file
-        path: dev.creeperkatze.full-steam-ahead.svg
     build-commands:
       - ln -s pnpm.mjs pnpm/bin/pnpm
       - pnpm install --offline --frozen-lockfile
       - pnpm tauri build --no-bundle
       - install -Dm755 "src-tauri/target/release/Full Steam Ahead" /app/bin/full-steam-ahead
-      - install -Dm644 -t /app/share/applications/ dev.creeperkatze.full-steam-ahead.desktop
+      - install -Dm644 -t /app/share/applications/ flatpak/dev.creeperkatze.full-steam-ahead.desktop
       - install -Dm644 -t /app/share/metainfo/ dev.creeperkatze.full-steam-ahead.metainfo.xml
-      - install -Dm644 dev.creeperkatze.full-steam-ahead-128.png /app/share/icons/hicolor/128x128/apps/dev.creeperkatze.full-steam-ahead.png
-      - install -Dm644 dev.creeperkatze.full-steam-ahead-256.png /app/share/icons/hicolor/256x256/apps/dev.creeperkatze.full-steam-ahead.png
-      - install -Dm644 dev.creeperkatze.full-steam-ahead-512.png /app/share/icons/hicolor/512x512/apps/dev.creeperkatze.full-steam-ahead.png
-      - install -Dm644 dev.creeperkatze.full-steam-ahead.svg /app/share/icons/hicolor/scalable/apps/dev.creeperkatze.full-steam-ahead.svg
+      - install -Dm644 src-tauri/icons/128x128.png /app/share/icons/hicolor/128x128/apps/dev.creeperkatze.full-steam-ahead.png
+      - install -Dm644 src-tauri/icons/128x128@2x.png /app/share/icons/hicolor/256x256/apps/dev.creeperkatze.full-steam-ahead.png
+      - install -Dm644 src-tauri/icons/icon.png /app/share/icons/hicolor/512x512/apps/dev.creeperkatze.full-steam-ahead.png
+      - install -Dm644 .github/assets/icon.svg /app/share/icons/hicolor/scalable/apps/dev.creeperkatze.full-steam-ahead.svg
       - install -Dm644 -t /app/share/licenses/dev.creeperkatze.full-steam-ahead/ LICENSE
