@@ -32,4 +32,4 @@ curl -fsSL "$raw/$tag/pnpm-lock.yaml" -o "$locks/pnpm-lock.yaml"
 "$venv/bin/flatpak-node-generator" --no-requests-cache --pnpm-store-version v11 \
 	-o "$here/node-sources.json" pnpm "$locks/pnpm-lock.yaml"
 
-echo "Regenerated cargo-sources.json and node-sources.json for $tag."
+echo "Generated sources for $tag."
